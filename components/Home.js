@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     margin: 0,
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(180deg, rgba(20,33,61,1) 0%, rgba(0,0,0,1) 100%)'
+    backgroundColor: 'black'
   },
   logo:{
     height: 128,

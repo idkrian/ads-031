@@ -24,17 +24,6 @@ export default function Lista(navigation) {
   }
 
 
-  // useEffect(() =>{
-  //   firebase.database().ref("Tasks").on("value", snapshot => {
-  //     let studentlist = [];
-  //     snapshot.forEach(snap => {
-  //         // snap.val() is the dictionary with all your keys/values from the 'students-list' path
-  //         studentlist.push(snap.val());
-  //     });
-  //     this.setState({ studentslist: studentlist });
-  //   });
-  // }, [])
-
   const entrar = () => {
     navigation.reset({
       index: 0,
@@ -42,8 +31,6 @@ export default function Lista(navigation) {
     })
   }
 
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
   const [dados, setDados] = useState([]);
 
   const Item = ({ item }) => {
@@ -59,7 +46,7 @@ export default function Lista(navigation) {
           <DataTable.Row style={styles.tableRow}>
             <DataTable.Cell>{item.clima}</DataTable.Cell>
             <DataTable.Cell>{item.temperatura}ºC</DataTable.Cell>
-            <DataTable.Cell>10/10/2020</DataTable.Cell>
+            <DataTable.Cell>{item.data}</DataTable.Cell>
           </DataTable.Row>
 
         </DataTable>
@@ -89,11 +76,12 @@ export default function Lista(navigation) {
       .collection('Tasks')
       .onSnapshot((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          const { clima, temperatura } = doc.data();
+          const { clima, temperatura, data } = doc.data();
           tasks.push({
             id: doc.id,
             clima: clima,
-            temperatura: temperatura
+            temperatura: temperatura,
+            data: data
           });
         });
         console.log(tasks)
@@ -144,7 +132,7 @@ const styles = StyleSheet.create({
     margin: 0,
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(360deg, #000000 0%, #14213D 100%)'
+    backgroundColor: 'black'
   },
 });
 

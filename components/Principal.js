@@ -22,17 +22,19 @@ export default function Principal({ navigation }) {
       .finally(() => setLoading(false));
   }, []);
 
-  function saveWeather(temperatura, clima) {
+  function saveWeather(temperatura, clima, data) {
     database.collection("Tasks").add({
       clima: clima,
       temperatura: temperatura,
-      createdAt: database.firestore.FieldValue.serverTimestamp()
+      data: data
     })
     console.log(temperatura, clima, data)
   }
 
+  const d = new Date(data.timezone);
+  let day = d.getDay();
+  console.log(day)
   return (
-
     <View style={styles.main}>
       <View>
         {isLoading ? <Text>Loading...</Text> :
@@ -40,14 +42,16 @@ export default function Principal({ navigation }) {
             <View style={styles.logoDiv}>
               <Image style={styles.logo} source={require('../assets/logo.png')} />
             </View>
-
-            <Text style={styles.weather}>{data.name}</Text>
-            <Text style={styles.weather}>{data.weather[0].description}</Text>
-            <Text style={styles.weather}>{data.main.temp}ºC</Text>
+            <View>
+              <Text style={styles.weather}>{data.name}</Text>
+              <Text style={styles.weather}>{data.weather[0].description}</Text>
+              <Text style={styles.weather}>{data.main.temp}ºC</Text>
+              <Text style={styles.weather}>{Date(data.timezone)}</Text>
+            </View>
             <View style={styles.button}>
               <Button
                 color='#FCA311'
-                onPress={() => { saveWeather(data.main.temp, data.weather[0].description) }}
+                onPress={() => { saveWeather(data.main.temp, data.weather[0].description, Date(data.timezone)) }}
                 title="Salvar Temperatura"
               />
             </View>
@@ -69,15 +73,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    height: 128,
-    width: 128,
+    height: 228,
+    width: 228,
     top: '0px',
     textAlign: 'center',
     alignItems: 'center',
   },
   weather: {
     textTransform: 'capitalize',
-    fontSize: 18,
+    fontSize: 24,
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -94,6 +98,7 @@ const styles = StyleSheet.create({
     margin: 0,
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(360deg, #000000 0%, #14213D 100%)'
+    // background: 'linear-gradient(360deg, #000000 0%, #14213D 100%)'
+    backgroundColor: 'black'
   },
 });
