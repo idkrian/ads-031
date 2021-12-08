@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, TextInput, Button, View, StyleSheet, Image, FlatList } from 'react-native';
 import database from '../config/firebaseConfig';
 
-export default function Principal({navigation}) {
+export default function Principal({ navigation }) {
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -10,7 +10,7 @@ export default function Principal({navigation}) {
   const listar = () => {
     navigation.reset({
       index: 0,
-      routes: [{name: "Lista"}]
+      routes: [{ name: "Lista" }]
     })
   }
 
@@ -22,55 +22,53 @@ export default function Principal({navigation}) {
       .finally(() => setLoading(false));
   }, []);
 
-  function saveWeather(temperatura, clima){
-    // const [clima, setClima] = useState(null)
-    // const [temperatura, setTemperatura] = useState(null)
-
+  function saveWeather(temperatura, clima) {
     database.collection("Tasks").add({
       clima: clima,
-      temperatura: temperatura
+      temperatura: temperatura,
+      createdAt: database.firestore.FieldValue.serverTimestamp()
     })
-    console.log(temperatura, clima)
+    console.log(temperatura, clima, data)
   }
 
   return (
 
     <View style={styles.main}>
-        <View>
-          {isLoading ? <Text>Loading...</Text> : 
-          ( <View >
-              <View style={styles.logoDiv}>
-                <Image style={styles.logo} source={require('../assets/logo.png')} />
-              </View>
-
-              <Text style={styles.weather}>{data.name}</Text>
-              <Text style={styles.weather}>{data.weather[0].description}</Text>
-              <Text style={styles.weather}>{data.main.temp}ºC</Text>
-              <View style={styles.button}>
-                <Button
-                  color = '#FCA311'
-                  onPress = {()=> {saveWeather(data.main.temp, data.weather[0].description)}}
-                  title="Salvar Temperatura"
-                />
-              </View>
+      <View>
+        {isLoading ? <Text>Loading...</Text> :
+          (<View >
+            <View style={styles.logoDiv}>
+              <Image style={styles.logo} source={require('../assets/logo.png')} />
             </View>
+
+            <Text style={styles.weather}>{data.name}</Text>
+            <Text style={styles.weather}>{data.weather[0].description}</Text>
+            <Text style={styles.weather}>{data.main.temp}ºC</Text>
+            <View style={styles.button}>
+              <Button
+                color='#FCA311'
+                onPress={() => { saveWeather(data.main.temp, data.weather[0].description) }}
+                title="Salvar Temperatura"
+              />
+            </View>
+          </View>
           )}
-        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  button:{
+  button: {
     position: 'fixed',
     bottom: 54,
     width: '100%',
-    },
-  logoDiv:{
+  },
+  logoDiv: {
     textAlign: 'center',
     alignItems: 'center',
   },
-  logo:{
+  logo: {
     height: 128,
     width: 128,
     top: '0px',
@@ -79,8 +77,8 @@ const styles = StyleSheet.create({
   },
   weather: {
     textTransform: 'capitalize',
-    fontSize: 18, 
-    color: 'white', 
+    fontSize: 18,
+    color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white'
   },
-  main:{
+  main: {
     padding: 0,
     margin: 0,
     width: '100%',
