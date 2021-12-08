@@ -6,6 +6,7 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { initializeApp } from "firebase/app";
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 
@@ -52,7 +53,7 @@ export default function Lista(navigation) {
         </DataTable>
       </View>
 
-  
+
     );
   };
 
@@ -90,29 +91,35 @@ export default function Lista(navigation) {
   }, []);
 
   return (
+    <LinearGradient style={styles.gradient} colors={['#14213D', 'black']}>
 
-    <View style={styles.main}>
+      <View style={styles.main}>
 
-      <FlatList
-        data={dados}
-        renderItem={Item}
-        keyExtractor={(item) => item.id}
-      />
+        <FlatList
+          data={dados}
+          renderItem={Item}
+          keyExtractor={(item) => item.id}
+        />
 
-      <Icon
-        style={styles.back}
-        reverse
-        color='#FCA311'
-        name="arrow-back-outline"
-        type='ionicon'
-        onPress={() => { entrar() }}
+        <Icon
+          style={styles.back}
+          reverse
+          color='#FCA311'
+          name="arrow-back-outline"
+          type='ionicon'
+          onPress={() => { entrar() }}
 
-      />
-    </View>
+        />
+      </View>
+    </LinearGradient>
+
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    height: '100%'
+  },
   back: {
     position: 'fixed',
     bottom: 0,
@@ -132,7 +139,6 @@ const styles = StyleSheet.create({
     margin: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'black'
   },
 });
 

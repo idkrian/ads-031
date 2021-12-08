@@ -1,36 +1,54 @@
 import * as React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
 
   const entrar = () => {
     navigation.reset({
       index: 0,
-      routes: [{name: "Principal"}]
+      routes: [{ name: "Principal" }]
     })
   }
 
   return (
-    <View style={styles.main}>
-      <View  style={styles.logo}>
-        <Image source={require('../assets/logo.png')} />
+    <LinearGradient style={styles.gradient} colors={['#14213D', 'black']}>
+      <View style={styles.main}>
+        <View style={styles.logoDiv}>
+          <Image style={styles.logo} source={require('../assets/logo.png')} />
+        </View>
+        
+        <Text style={styles.paragraph}>Klima</Text>
+
+        <View style={styles.button}>
+          <Button
+            color='#FCA311'
+            onPress={() => { entrar() }}
+            title="Entrar"
+          />
+        </View>
       </View>
-      <Text style={styles.paragraph}>Klima</Text>
-      
-      <View style={styles.button}>
-        <Button
-          color = '#FCA311'
-          onPress = {()=> {entrar()}}
-          title="Entrar"
-        />
-      </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  button:{
+  gradient: {
+    height: '100%'
+  },
+  logoDiv: {
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    height: 228,
+    width: 228,
+    top: '0px',
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  button: {
     paddingTop: 40,
     width: '100%',
     textAlign: 'center',
@@ -38,14 +56,13 @@ const styles = StyleSheet.create({
     bottom: 54,
     width: '100%',
   },
-  main:{
+  main: {
     padding: 0,
     margin: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'black'
   },
-  logo:{
+  logo: {
     height: 128,
     width: 128,
     top: '20px'

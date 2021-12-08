@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, TextInput, Button, View, StyleSheet, Image, FlatList } from 'react-native';
 import database from '../config/firebaseConfig';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Principal({ navigation }) {
 
@@ -31,38 +32,41 @@ export default function Principal({ navigation }) {
     console.log(temperatura, clima, data)
   }
 
-  const d = new Date(data.timezone);
-  let day = d.getDay();
-  console.log(day)
   return (
-    <View style={styles.main}>
-      <View>
-        {isLoading ? <Text>Loading...</Text> :
-          (<View >
-            <View style={styles.logoDiv}>
-              <Image style={styles.logo} source={require('../assets/logo.png')} />
+    <LinearGradient style={styles.gradient} colors={['#14213D', 'black']}>
+      <View style={styles.main}>
+        <View>
+          {isLoading ? <Text>Loading...</Text> :
+            (<View >
+              <View style={styles.logoDiv}>
+                <Image style={styles.logo} source={require('../assets/logo.png')} />
+              </View>
+              <View>
+                <Text style={styles.weather}>{data.name}</Text>
+                <Text style={styles.weather}>{data.weather[0].description}</Text>
+                <Text style={styles.weather}>{data.main.temp}ºC</Text>
+                <Text style={styles.weather}>{Date(data.timezone)}</Text>
+              </View>
+              <View style={styles.button}>
+                <Button
+                  color='#FCA311'
+                  onPress={() => { saveWeather(data.main.temp, data.weather[0].description, Date(data.timezone)) }}
+                  title="Salvar Temperatura"
+                />
+              </View>
             </View>
-            <View>
-              <Text style={styles.weather}>{data.name}</Text>
-              <Text style={styles.weather}>{data.weather[0].description}</Text>
-              <Text style={styles.weather}>{data.main.temp}ºC</Text>
-              <Text style={styles.weather}>{Date(data.timezone)}</Text>
-            </View>
-            <View style={styles.button}>
-              <Button
-                color='#FCA311'
-                onPress={() => { saveWeather(data.main.temp, data.weather[0].description, Date(data.timezone)) }}
-                title="Salvar Temperatura"
-              />
-            </View>
-          </View>
-          )}
+            )}
+        </View>
       </View>
-    </View>
+    </LinearGradient>
+
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    height: '100%'
+  },
   button: {
     position: 'fixed',
     bottom: 54,
@@ -98,7 +102,5 @@ const styles = StyleSheet.create({
     margin: 0,
     width: '100%',
     height: '100%',
-    // background: 'linear-gradient(360deg, #000000 0%, #14213D 100%)'
-    backgroundColor: 'black'
   },
 });
